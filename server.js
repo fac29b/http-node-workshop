@@ -15,9 +15,9 @@ function logger(request, response, next) {
     console.log(request.method + " " + request.url);
     next();
 }
-server.get("/", (request, response) => {
-    response.send(`<h1>Hello</h1>`);
-});
+// server.get("/", (request, response) => {
+//     response.send(`<h1>Hello</h1>`);
+// });
 server.get("/", (request, response) => {
     const year = new Date().getFullYear();
     response.send(`
