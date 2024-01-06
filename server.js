@@ -1,16 +1,20 @@
 const express = require("express");
 const server = express();
 const staticHandler = express.static("public");
-
-
-// server.use(logger);
 server.use(staticHandler);
+
+
+server.use(logger);
+
 //Routes
 server.get("/", (request, response, next) => {
     console.log(request.method + " " + request.url);
     next();
 });
-
+function logger(request, response, next) {
+    console.log(request.method + " " + request.url);
+    next();
+}
 server.get("/", (request, response) => {
     response.send(`<h1>Hello</h1>`);
 });
