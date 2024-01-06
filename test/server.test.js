@@ -2,13 +2,29 @@ const test = require("node:test");
 const assert = require("node:assert");
 const server = require("../server.js");
 
+test("/submit route responds to POST requests", async () => {
+  const app = server.listen(9876);
 
+  const response = await fetch("http://localhost:9876/submit", {
+    method: "POST",
+    body: "name=oli",
+    headers: {
+      "content-type": "application/x-www-form-urlencoded",
+    },
+  });
+  app.close();
+
+  assert.equal(response.status, 200);
+  const body = await response.text();
+  assert.match(body, /thanks for submitting, oli/);
+});
 test("home route returns expected page", async () => {
     const app = server.listen(9876);
     const response = await fetch("http://localhost:9876");
     app.close();
 
     assert.equal(response.status, 200);
+    const year = new Date().getFullYear();
     const body = await response.text();
     assert.equal(body, `
     <!doctype html>

@@ -1,6 +1,19 @@
 const express = require("express");
 const server = express();
 const staticHandler = express.static("public");
+const bodyParser = express.urlencoded();
+
+
+server.post("/submit", bodyParser, (request, response) => {
+  const name = request.body.name;
+  response.redirect(`/submit/success?name=${name}`);
+});
+server.get("/submit/success", (request, response) => {
+  const name = request.query.name;
+  response.send(`<p>thanks for submitting, ${name}</p>`);
+});
+
+
 server.use(staticHandler);
 
 
@@ -43,6 +56,9 @@ server.get("/search", (request, response) => {
 })
 server.use((request, response) => {
     response.status(404).send("<h1> Not Found</h1>");
+});
+server.post("/submit", (request, response) => {
+  response.send("thanks for submitting");
 });
 
 module.exports = server;
